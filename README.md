@@ -36,6 +36,10 @@ Install Docker Compose
 
     sudo apt install docker-compose -y
 
+Insure that all the Python Libaries needed are installed
+
+    sudo apt install python3-pip
+
 Start and Enable Docker Service:
 
     sudo systemctl start docker
@@ -65,7 +69,7 @@ Create subdirectories for configuration files:
 
 Open a new file named docker-compose.yml in your project directory:
 
-    nano docker-compose.yml
+nano docker-compose.yml
 
 Add the following content:
 
@@ -86,10 +90,22 @@ Add the following content:
             - ./config/pihole:/etc/pihole
             - ./config/dnsmasq.d:/etc/dnsmasq.d
             restart: unless-stopped
-            
+
 Be careful with the indentations. They Matter.
-          
+
 ## Step 3: Starting the Pi-hole Container:
+Disable Ubuntu's default caching DNS stub resolver so pihole can listen on port 53
+
+    sudo sed -r -i.orig 's/#?DNSStubListener=yes/DNSStubListener=no/g' /etc/systemd/resolved.conf
+
+Modify netplan:
+
+    sudo sh -c 'rm /etc/resolv.conf && ln -s /run/systemd/resolve/resolv.conf /etc/resolv.conf'
+
+after doing this you must restart
+
+    systemctl restart systemd-resolved
+
 Run Docker Compose to create and start the Pi-hole container:
 
     sudo docker-compose up -d
@@ -113,9 +129,9 @@ Log in using the password set in the WEBPASSWORD environment variable.
 
 ## Step 5: Testing Pi-hole
 
-Update the DNS settings on a test device to use Pi-hole’s IP address (192.168.1.2).
+Update the DNS settings on a test device to use Pi-hole’s IP address.
 
-On the device, set the DNS server to 192.168.1.2.
+On the device, set the DNS server to Pi-hole server address.
 
 Visit an ad-heavy website or use a test tool to confirm that ads are being blocked.
 
