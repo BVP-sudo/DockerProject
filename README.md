@@ -65,7 +65,7 @@ Create subdirectories for configuration files:
 
 Open a new file named docker-compose.yml in your project directory:
 
-nano docker-compose.yml
+    nano docker-compose.yml
 
 Add the following content:
 
