@@ -75,9 +75,10 @@ Add the following content:
             container_name: pihole
             image: pihole/pihole:latest
             ports:
-            - "80:80"         # Web interface
-            - "53:53/tcp"     # DNS
+            - "53:53/tcp"
             - "53:53/udp"
+            - "67:67/udp" # Only required if you are using Pi-hole as your DHCP server
+            - "80:80/tcp"
             environment:
             TZ: "America/Chicago"  # Adjust for your timezone
             WEBPASSWORD: "securepassword"  # Replace with a strong password
@@ -85,17 +86,9 @@ Add the following content:
             - ./config/pihole:/etc/pihole
             - ./config/dnsmasq.d:/etc/dnsmasq.d
             restart: unless-stopped
-            networks:
-            pihole_net:
-                ipv4_address: 192.168.1.2
-    
-        networks:
-        pihole_net:
-            driver: bridge
-            ipam:
-            config:
-                - subnet: 192.168.1.0/24
-
+            
+Be careful with the indentations. They Matter.
+          
 ## Step 3: Starting the Pi-hole Container:
 Run Docker Compose to create and start the Pi-hole container:
 
