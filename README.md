@@ -55,11 +55,11 @@ Docker Compose version:
 ## Step 1: Setting Up the Project Directory:
 Create a directory to house the Pi-hole project:
 
-mkdir ~/pihole-setup && cd ~/pihole-setup
+    mkdir ~/pihole-setup && cd ~/pihole-setup
 
 Create subdirectories for configuration files:
 
-mkdir -p config/pihole config/dnsmasq.d
+    mkdir -p config/pihole config/dnsmasq.d
 
 ## Step 2: Writing the docker-compose.yml File:
 
